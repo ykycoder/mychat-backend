@@ -1,0 +1,8 @@
+server:
+  port: 55
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.2.100:8848
