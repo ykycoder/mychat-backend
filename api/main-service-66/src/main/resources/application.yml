@@ -5,7 +5,7 @@ server:
 
 spring:
   application:
-    name: auth-service
+    name: main-service
   profiles:
     active: dev
 

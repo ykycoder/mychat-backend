@@ -13,6 +13,7 @@
         <module>mychat-common</module>
         <module>mychat-pojo</module>
         <module>api</module>
+        <module>gateway-1000</module>
     </modules>
 
     <properties>
