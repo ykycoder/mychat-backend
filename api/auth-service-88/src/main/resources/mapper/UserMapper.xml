@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="generator.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="org.yky.pojo.User">
+            <id property="id" column="id" jdbcType="VARCHAR"/>
+            <result property="mychatNum" column="mychat_num" jdbcType="VARCHAR"/>
+            <result property="mychatNumImg" column="mychat_num_img" jdbcType="VARCHAR"/>
+            <result property="mobile" column="mobile" jdbcType="VARCHAR"/>
+            <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+            <result property="realName" column="real_name" jdbcType="VARCHAR"/>
+            <result property="sex" column="sex" jdbcType="INTEGER"/>
+            <result property="face" column="face" jdbcType="VARCHAR"/>
+            <result property="email" column="email" jdbcType="VARCHAR"/>
+            <result property="birthday" column="birthday" jdbcType="DATE"/>
+            <result property="country" column="country" jdbcType="VARCHAR"/>
+            <result property="province" column="province" jdbcType="VARCHAR"/>
+            <result property="city" column="city" jdbcType="VARCHAR"/>
+            <result property="district" column="district" jdbcType="VARCHAR"/>
+            <result property="chatBg" column="chat_bg" jdbcType="VARCHAR"/>
+            <result property="signature" column="signature" jdbcType="VARCHAR"/>
+            <result property="createdTime" column="created_time" jdbcType="TIMESTAMP"/>
+            <result property="updatedTime" column="updated_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,mychat_num,mychat_num_img,
+        mobile,nickname,real_name,
+        sex,face,email,
+        birthday,country,province,
+        city,district,chat_bg,
+        signature,created_time,updated_time
+    </sql>
+</mapper>
