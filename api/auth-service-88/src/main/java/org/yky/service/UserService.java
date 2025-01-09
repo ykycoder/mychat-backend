@@ -2,6 +2,9 @@ package org.yky.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.yky.pojo.User;
+import org.yky.pojo.vo.UserVO;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
 * @author yky
@@ -25,5 +28,21 @@ public interface UserService extends IService<User> {
      * @return
      */
     public User createUser(String mobile);
+
+    /**
+     * 获取当前登录用户
+     *
+     * @param userId
+     * @return
+     */
+    User getLoginUser(String userId);
+
+    /**
+     * 获得脱敏后的用户登录信息
+     *
+     * @param user
+     * @return
+     */
+    UserVO getUserVO(User user);
 
 }

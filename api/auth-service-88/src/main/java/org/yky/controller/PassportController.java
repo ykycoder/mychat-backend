@@ -23,9 +23,9 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/passport")
 @Slf4j
-public class UserController {
+public class PassportController {
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
@@ -99,5 +99,11 @@ public class UserController {
         Boolean result = stringRedisTemplate.delete(UserConstant.REDIS_USER_TOKEN + ":" + userId);
         ThrowUtils.throwIf(!result, ErrorCode.SYSTEM_ERROR, "退出登录失败");
         return ResultUtils.success(true);
+    }
+
+    @GetMapping("/get/login")
+    public BaseResponse<UserVO> getLoginUser(@RequestParam String userId) {
+        User loginUser = userService.getLoginUser(userId);
+        return ResultUtils.success(userService.getUserVO(loginUser));
     }
 }

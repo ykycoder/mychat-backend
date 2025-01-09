@@ -19,15 +19,15 @@ spring:
         - id: authRoute
           uri: lb://auth-service
           predicates:
-            - Path=/a/**,b/**
+            - Path=/a/**,/passport/**
         - id: fileRoute
           uri: lb://file-service
           predicates:
-            - Path=/f/**
+            - Path=/f/**,/file/**,/static/**
         - id: mainRoute
           uri: lb://main-service
           predicates:
-            - Path=/m/**
+            - Path=/m/**,/userinfo/**
       globalcors:
         cors-configurations:
           '[/**]':

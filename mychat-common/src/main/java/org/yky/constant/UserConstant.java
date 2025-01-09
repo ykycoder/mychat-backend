@@ -19,5 +19,7 @@ public interface UserConstant {
     public static final String SYMBOL_DOT = ".";
 
     public static final String REDIS_USER_TOKEN = "redis_user_token";
+
+    public static final String REDIS_USER_ALREADY_UPDATE_MYCHAT_NUM = "redis_user_already_update_mychat_num";
 }
 
