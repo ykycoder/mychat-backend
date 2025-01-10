@@ -21,5 +21,9 @@ public interface UserConstant {
     public static final String REDIS_USER_TOKEN = "redis_user_token";
 
     public static final String REDIS_USER_ALREADY_UPDATE_MYCHAT_NUM = "redis_user_already_update_mychat_num";
+
+    public static final String HEADER_USER_ID = "headerUserId";
+
+    public static final String HEADER_USER_TOKEN = "headerUserToken";
 }
 

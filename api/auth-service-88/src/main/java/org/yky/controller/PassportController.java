@@ -2,6 +2,7 @@ package org.yky.controller;
 
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -91,6 +92,48 @@ public class PassportController {
         UserVO userVO = new UserVO();
         BeanUtils.copyProperties(user, userVO);
         userVO.setUserToken(uToken);
+        return ResultUtils.success(userVO);
+    }
+
+    /**
+     * 一键注册登录接口，可以同时提供给用户做登录和注册使用调用
+     * @param registerLoginBO
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("registerOrLogin")
+    public BaseResponse<UserVO> registerOrLogin(@RequestBody @Valid RegisterLoginBO registerLoginBO,
+                                         HttpServletRequest request) throws Exception {
+        String mobile = registerLoginBO.getMobile();
+        String code = registerLoginBO.getCode();
+
+        // 1. 从redis中获得验证码进行校验判断是否匹配
+        String redisCode = stringRedisTemplate.opsForValue().get(UserConstant.MOBILE_SMSCODE + ":" + mobile);
+        if (StringUtils.isBlank(redisCode) || !redisCode.equalsIgnoreCase(code)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "验证码错误");
+        }
+
+        // 2. 根据mobile查询数据库，如果用户存在，则直接登录
+        User user = userService.queryMobileIfExist(mobile);
+        if (user == null) {
+            // 2.1 如果查询数据库中用户为空，则表示用户没有注册过，则需要进行用户信息数据的入库
+            user = userService.createUser(mobile);
+        }
+
+        // 3. 用户注册成功后，删除redis中的短信验证码使其失效
+        stringRedisTemplate.delete(UserConstant.MOBILE_SMSCODE + ":" + mobile);
+
+        // 4. 设置用户分布式会话，保存用户的token令牌，存储到redis中
+        String uToken = UserConstant.TOKEN_WEB_PREFIX + UserConstant.SYMBOL_DOT + UUID.randomUUID();
+        // 本方式允许用户在多端多设备进行登录
+        stringRedisTemplate.opsForValue().set(UserConstant.REDIS_USER_TOKEN + ":" + uToken, user.getId());   // 设置分布式会话
+
+        // 5. 返回用户数据给前端
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(user, userVO);
+        userVO.setUserToken(uToken);
+
         return ResultUtils.success(userVO);
     }
 
